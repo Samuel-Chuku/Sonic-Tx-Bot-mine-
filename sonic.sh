@@ -62,18 +62,26 @@ const to = web3.Keypair.generate();
     
       
       const txCount = 100;
-      for (let i = 0; i < txCount; i++) {
-      const signature = await web3.sendAndConfirmTransaction(
-        connection,
-        transaction,
-        [from],
-      );
-    console.log(chalk.blue('Tx hash :'), signature);
+      let i = 0;
+      const interval = setInterval(async () => {
+        if (i < txCount) {
+          const signature = await web3.sendAndConfirmTransaction(
+            connection,
+            transaction,
+            [from],
+          );
+          i++;
+            console.log(chalk.blue('Tx hash :'), signature);
+            
+        } else {
+            clearInterval(interval);
+        }
+    }, 90000);
     console.log("");
     const randomDelay = Math.floor(Math.random() * 3) + 1;
     await new Promise(resolve => setTimeout(resolve, randomDelay * 1000));
-  }
-})();
+    }
+    })();
 EOF
 echo
 echo -e "${BOLD_BLUE}Executing the Node.js script${NC}"
