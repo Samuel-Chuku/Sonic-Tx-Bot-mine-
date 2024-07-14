@@ -13,7 +13,7 @@ rl.question('Enter your Solana wallet private key: ', (privkey) => {
     const from = web3.Keypair.fromSecretKey(bs58.decode(privkey));
     const to = web3.Keypair.generate();
 
-    (async () => {
+    const sendTransaction = async () => {
         const transaction = new web3.Transaction().add(
             web3.SystemProgram.transfer({
                 fromPubkey: from.publicKey,
@@ -39,7 +39,10 @@ rl.question('Enter your Solana wallet private key: ', (privkey) => {
         console.log("");
         const randomDelay = Math.floor(Math.random() * 3) + 1;
         await new Promise(resolve => setTimeout(resolve, randomDelay * 1000));
-    })();
+    };
 
-    rl.close();
+    sendTransaction().then(() => rl.close()).catch((err) => {
+        console.error(err);
+        rl.close();
+    });
 });
