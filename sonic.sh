@@ -61,7 +61,7 @@ const to = web3.Keypair.generate();
       );
     
       
-      const txCount = 100;
+      const txCount = 30;
       let i = 0;
       const interval = setInterval(async () => {
         if (i < txCount) {
